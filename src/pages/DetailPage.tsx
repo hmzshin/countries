@@ -1,6 +1,7 @@
+import { Icon } from "@iconify/react/dist/iconify.js";
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 type Country = {
   capital: string;
@@ -23,10 +24,9 @@ const initialData = {
 };
 
 const DetailPage = () => {
-  const { countryName, countryCode } = useParams();
+  const { countryCode } = useParams();
   const [country, setCountry] = useState<Country>(initialData);
-
-  console.log(countryName);
+  const navigate = useNavigate();
 
   async function fetchCountries(query: string): Promise<void> {
     const endpoint = "https://countries.trevorblades.com/graphql";
@@ -71,9 +71,15 @@ const DetailPage = () => {
   }, [countryCode]);
 
   return (
-    <section>
+    <section className="w-[500px] flex flex-col justify-center items-center m-auto pt-10">
+      <div className="self-start " onClick={() => navigate(-1)}>
+        <Icon icon="ic:baseline-arrow-back-ios" className="w-7 h-7" />
+      </div>
       {country.name ? (
-        <div className="flex flex-col items-start justify-center pl-40 gap-2 w-[500px] border m-auto mt-10">
+        <div
+          className="flex flex-col items-start justify-center w-full pl-40 gap-2  border m-auto mt-1
+        "
+        >
           <h1>Name:{country.name}</h1>
           <p>Capital:{country.capital}</p>
           <p>Code:{country.code}</p>
