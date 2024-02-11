@@ -45,7 +45,19 @@ const CountriesContextProvider: React.FC<CountriesContextProviderProps> = ({
   const dataReducer = (state: InitialData, action: Action): InitialData => {
     switch (action.type) {
       case "SET_COUNTRIES":
-        return { ...state, countries: action.payload };
+        if (action.payload.length >= 10) {
+          return {
+            ...state,
+            countries: action.payload,
+            activeCounry: action.payload[9],
+          };
+        } else {
+          return {
+            ...state,
+            countries: action.payload,
+            activeCounry: action.payload[action.payload.length - 1],
+          };
+        }
 
       case "SET_ACTIVE_COUNTRY":
         return { ...state, activeCounry: action.payload };
