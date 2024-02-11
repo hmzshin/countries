@@ -18,7 +18,7 @@ const ListItem: React.FC<ListItemProps> = ({ country }) => {
   const active = countries.activeCounry;
   const navigate = useNavigate();
 
-  function clickHandler(country: Country): void {
+  function navagigateToDetails(country: Country): void {
     const slug = slugify(country.name, {
       replacement: "-",
       remove: undefined,
@@ -30,22 +30,34 @@ const ListItem: React.FC<ListItemProps> = ({ country }) => {
     navigate(`/${country.code.toLowerCase()}/${slug}`);
   }
 
+  function clickHandler(country: Country) {
+    if (country.name === active.name)
+      dispatchCountries({
+        type: "RESET_ACTIVE_COUNTRY",
+        payload: { name: "", code: "", capital: "" },
+      });
+    else {
+      dispatchCountries({
+        type: "SET_ACTIVE_COUNTRY",
+        payload: country,
+      });
+    }
+  }
+
   return (
     <li
       id={country.code}
       className={`w-[500px] flex justify-between items-center border list-none cursor-pointer shadow-sm rounded-md p-2 ${
         active.code === country.code ? "bg-lime-100" : " bg-gray-50"
       }`}
-      onClick={() =>
-        dispatchCountries({ type: "SET_ACTIVE_COUNTRY", payload: country })
-      }
+      onClick={() => clickHandler(country)}
     >
       <div>
         <p>Country name: {country.name}</p>
         <p>Country code: {country.code}</p>
         <p>Country capital: {country.capital}</p>
       </div>
-      <div onClick={() => clickHandler(country)}>
+      <div onClick={() => navagigateToDetails(country)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="1.5em"

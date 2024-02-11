@@ -10,7 +10,10 @@ type InitialData = {
   activeCounry: Country;
 };
 
-type ActionType = "SET_COUNTRIES" | "SET_ACTIVE_COUNTRY";
+type ActionType =
+  | "SET_COUNTRIES"
+  | "SET_ACTIVE_COUNTRY"
+  | "RESET_ACTIVE_COUNTRY";
 
 interface Action {
   type: ActionType;
@@ -45,6 +48,9 @@ const CountriesContextProvider: React.FC<CountriesContextProviderProps> = ({
         return { ...state, countries: action.payload };
 
       case "SET_ACTIVE_COUNTRY":
+        return { ...state, activeCounry: action.payload };
+
+      case "RESET_ACTIVE_COUNTRY":
         return { ...state, activeCounry: action.payload };
 
       default:
