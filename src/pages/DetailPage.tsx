@@ -3,31 +3,23 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 type Country = {
-  awsRegion: string;
   capital: string;
   code: string;
-  currencies: string[];
   currency: string;
   emoji: string;
-  emojiU: string;
   name: string;
   native: string;
   phone: string;
-  phones: string[];
 };
 
 const initialData = {
-  awsRegion: "",
   capital: "",
   code: "",
-  currencies: [],
   currency: "",
   emoji: "",
-  emojiU: "",
   name: "",
   native: "",
   phone: "",
-  phones: [],
 };
 
 const DetailPage = () => {
@@ -63,17 +55,14 @@ const DetailPage = () => {
     if (countryCode) {
       const query = `query Country {
       country(code: "${countryCode.toUpperCase()}") {
-          awsRegion
           capital
           code
-          currencies
           currency
           emoji
-          emojiU
           name
           native
           phone
-          phones
+    
       }
   }`;
       fetchCountries(query);
@@ -88,10 +77,10 @@ const DetailPage = () => {
           <h1>Name:{country.name}</h1>
           <p>Capital:{country.capital}</p>
           <p>Code:{country.code}</p>
-          <p>Currency:{country.currencies}</p>
+          <p>Currency:{country.currency}</p>
           <p>Flag:{country.emoji}</p>
-          <p>Native Language: {country.native}</p>
-          <p>Phone Code:{country.phone}</p>
+          <p>Native Name: {country.native}</p>
+          <p>Phone Code: +{country.phone}</p>
         </div>
       ) : (
         <div>loading</div>
