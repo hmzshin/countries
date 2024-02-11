@@ -19,7 +19,7 @@ The "Countries" project is a web application that sends GraphQL requests to an e
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/countries.git
+git clone https://github.com/hmzshin/countries.git
 ```
 
 2. Make direction to project folder
