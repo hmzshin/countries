@@ -7,13 +7,14 @@ type Country = {
 
 type InitialData = {
   countries: Country[];
+  activeCounry: Country;
 };
 
-type ActionType = "SET_COUNTRIES" | "FILTER_COUNTRIES" | "RESET_FILTER";
+type ActionType = "SET_COUNTRIES" | "SET_ACTIVE_COUNTRY";
 
 interface Action {
   type: ActionType;
-  payload: Country[];
+  payload: any;
 }
 
 interface CountriesContextType {
@@ -23,6 +24,7 @@ interface CountriesContextType {
 
 const initialData: InitialData = {
   countries: [],
+  activeCounry: { name: "", code: "", capital: "" },
 };
 
 export const CountriesContextObject = createContext<CountriesContextType>({
@@ -41,6 +43,9 @@ const CountriesContextProvider: React.FC<CountriesContextProviderProps> = ({
     switch (action.type) {
       case "SET_COUNTRIES":
         return { ...state, countries: action.payload };
+
+      case "SET_ACTIVE_COUNTRY":
+        return { ...state, activeCounry: action.payload };
 
       default:
         return state;
