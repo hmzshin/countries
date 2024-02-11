@@ -30,19 +30,6 @@ function App() {
   }
 
   useEffect(() => {
-    const query = `
-    query Countries {
-      countries {
-        name
-        capital
-        code
-      }
-    }
-  `;
-    fetchCountries(query);
-  }, []);
-
-  useEffect(() => {
     if (memoizedSearchParams.has("filter")) {
       const urlParams: any = {};
       for (const entry of searchParams.entries()) {
