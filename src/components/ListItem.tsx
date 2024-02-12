@@ -11,9 +11,10 @@ type Country = {
 
 interface ListItemProps {
   country: Country;
+  randomColor: string;
 }
 
-const ListItem: React.FC<ListItemProps> = ({ country }) => {
+const ListItem: React.FC<ListItemProps> = ({ country, randomColor }) => {
   const { dispatchCountries, countries } = useContext(CountriesContextObject);
   const active = countries.activeCounry;
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ const ListItem: React.FC<ListItemProps> = ({ country }) => {
     <li
       id={country.code}
       className={`w-[500px] flex justify-between items-center border list-none cursor-pointer shadow-sm rounded-md p-2 ${
-        active.code === country.code ? "bg-lime-100" : " bg-gray-50"
+        active.code === country.code ? randomColor : "bg-gray-50"
       }`}
       onClick={() => clickHandler(country)}
     >
