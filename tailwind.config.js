@@ -4,12 +4,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        customColor1: "#DBD6A4",
-        customColor2: "#C0DBA4",
-        customColor3: "#D7DCA5",
-        customColor4: "#DBCFA4",
-        customColor5: "#A9DBA4",
-        customColor6: "#D6DB9D",
+        customColor1: "#7BDBAE",
+        customColor2: "#7BC9DB",
+        customColor3: "#7BDBCF",
+        customColor4: "#7BDB8D",
+        customColor5: "#7BAADB",
+        customColor6: "#1ADBC2",
       },
     },
   },
