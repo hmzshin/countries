@@ -35,11 +35,17 @@ const Content = () => {
   }, [active]);
 
   return (
-    <section className="flex flex-col items-center justify-center gap-2 pb-10">
+    <table className="w-[600px] m-auto flex flex-col items-center justify-between gap-2 pb-10 relative">
+      <tr className="w-full border p-2 rounded-md bg-slate-300 sticky top-0 flex justify-between items-center">
+        <th className="w-52 pr-10">Name</th>
+        <th className="w-20 pr-7">Code</th>
+        <th className="w-40">Capital</th>
+        <th>Details</th>
+      </tr>
       {countries.countries.map((country, i) => (
         <ListItem key={i} country={country} randomColor={randomColor} />
       ))}
-    </section>
+    </table>
   );
 };
 
