@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router";
 import slugify from "slugify";
-import { CountriesContextObject } from "../context/countiresContext";
+import { CountriesContextObject } from "../context/countriesContext";
 
 type Country = {
   name: string;
@@ -16,10 +16,10 @@ interface ListItemProps {
 
 const ListItem: React.FC<ListItemProps> = ({ country, randomColor }) => {
   const { dispatchCountries, countries } = useContext(CountriesContextObject);
-  const active = countries.activeCounry;
+  const active = countries.activeCountry;
   const navigate = useNavigate();
 
-  function navagigateToDetails(country: Country): void {
+  function navigateToDetails(country: Country): void {
     const slug = slugify(country.name, {
       replacement: "-",
       remove: undefined,
@@ -57,7 +57,7 @@ const ListItem: React.FC<ListItemProps> = ({ country, randomColor }) => {
       <td className="w-20">{country.code}</td>
       <td className="w-40"> {country.capital}</td>
 
-      <td onClick={() => navagigateToDetails(country)}>
+      <td onClick={() => navigateToDetails(country)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="1.5em"

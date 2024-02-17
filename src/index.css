@@ -5,3 +5,7 @@
 .activeCountry {
   @apply bg-lime-50;
 }
+
+.btn {
+  @apply text-white cursor-pointer border py-1 px-3 rounded-md bg-sky-400 hover:bg-sky-500;
+}

@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { CountriesContextObject } from "../context/countiresContext";
+import { CountriesContextObject } from "../context/countriesContext";
 import ListItem from "./ListItem";
 
 const Content = () => {
   const { countries } = useContext(CountriesContextObject);
-  const active = countries.activeCounry;
+  const active = countries.activeCountry;
 
   const [randomNumber, setRandomNumber] = useState<number>(0);
   const [randomColor, setRandomColor] = useState<string>("");

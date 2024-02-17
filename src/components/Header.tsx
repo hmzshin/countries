@@ -6,31 +6,35 @@ type FormData = {
 };
 
 const Header = () => {
-  const [fromData, setFormData] = useState<FormData>({ filter: "", group: "" });
+  const [formData, setFormData] = useState<FormData>({ filter: "", group: "" });
   const [searchParams, setSearchParams] = useSearchParams();
 
-  function inputChangeHandler(event: ChangeEvent<HTMLInputElement>): void {
+  function inputChangeHandler(
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ): void {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   }
 
   function submitHandler(e: FormEvent): void {
     e.preventDefault();
-    if (fromData.filter === "" && fromData.group === "") {
-      window.alert("Arama yapmak istediğiniz kelimeyi yazın.");
-    } else if (fromData.filter === "") {
-      setSearchParams({ group: fromData.group });
-    } else if (fromData.group === "") {
-      setSearchParams({ filter: fromData.filter });
+    if (formData.filter === "" && formData.group === "") {
+      window.alert("Please enter the word you want to search.");
+    } else if (formData.filter === "") {
+      setSearchParams({ group: formData.group });
+    } else if (formData.group === "") {
+      setSearchParams({ filter: formData.filter });
     } else {
-      setSearchParams(fromData);
+      setSearchParams(formData);
     }
   }
 
   function resetFilter() {
     const filter = searchParams.get("filter");
-    if (filter) {
+    const group = searchParams.get("group");
+    if (filter || group) {
       searchParams.delete("filter");
+      searchParams.delete("group");
       setSearchParams(searchParams);
     }
     console.log(filter);
@@ -41,41 +45,43 @@ const Header = () => {
       <h1 className="text-sky-400 text-4xl flex items-center justify-center ">
         Frontend Developer Assignment
       </h1>
-      <form className="flex gap-5" onSubmit={(e) => submitHandler(e)}>
-        <label className="flex gap-2 items-center">
-          Filter
-          <input
-            id="filter"
-            name="filter"
-            type="text"
-            className="border pl-1"
-            onChange={(e) => inputChangeHandler(e)}
-          />
-        </label>
+      <div className="flex gap-2">
+        <form className="flex gap-5" onSubmit={(e) => submitHandler(e)}>
+          <label className="flex gap-2 items-center">
+            Filter
+            <input
+              id="filter"
+              name="filter"
+              type="text"
+              className="border pl-1"
+              onChange={(e) => inputChangeHandler(e)}
+            />
+          </label>
 
-        <label className="flex gap-2 items-center">
-          Group{" "}
-          <input
-            id="group"
-            name="group"
-            type="text"
-            className="border pl-1"
-            onChange={(e) => inputChangeHandler(e)}
-          />
-        </label>
+          <label className="flex gap-2 items-center">
+            Group{" "}
+            <select
+              id="group"
+              name="group"
+              className="border pl-1"
+              onChange={(e) => inputChangeHandler(e)}
+            >
+              <option selected hidden>
+                Select to group by
+              </option>
+              <option value="language">Language</option>
+              <option value="continent">Continent</option>
+              <option value="currency">Currency</option>
+            </select>
+          </label>
 
-        <button
-          type="submit"
-          className="border bg-gray-100 hover:bg-gray-200 py-1 px-5 rounded-md"
-        >
-          Go
-        </button>
-      </form>
-      <div
-        className="text-white cursor-pointer border py-1 px-3 rounded-md bg-sky-400 hover:bg-sky-500"
-        onClick={resetFilter}
-      >
-        Reset Filter
+          <button type="submit" className="btn">
+            Search
+          </button>
+        </form>
+        <div className="btn" onClick={resetFilter}>
+          Reset Filter
+        </div>
       </div>
     </section>
   );
