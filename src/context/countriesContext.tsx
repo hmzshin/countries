@@ -1,11 +1,20 @@
 import React, { createContext, ReactNode, useReducer } from "react";
+
+type Object = {
+  name: string;
+};
+
 type Country = {
   name: string;
   code: string;
-  capital: string;
+  currencies: string[];
+  continent: Object;
+  languages: Object[];
 };
 
 type InitialData = {
+  languages: Object[];
+  continents: Object[];
   countries: Country[];
   activeCountry: Country;
 };
@@ -13,7 +22,9 @@ type InitialData = {
 type ActionType =
   | "SET_COUNTRIES"
   | "SET_ACTIVE_COUNTRY"
-  | "RESET_ACTIVE_COUNTRY";
+  | "RESET_ACTIVE_COUNTRY"
+  | "SET_LANGUAGES"
+  | "SET_CONTINENTS";
 
 interface Action {
   type: ActionType;
@@ -26,8 +37,16 @@ interface CountriesContextType {
 }
 
 const initialData: InitialData = {
+  languages: [],
+  continents: [],
   countries: [],
-  activeCountry: { name: "", code: "", capital: "" },
+  activeCountry: {
+    name: "",
+    code: "",
+    currencies: [],
+    continent: { name: "" },
+    languages: [],
+  },
 };
 
 export const CountriesContextObject = createContext<CountriesContextType>({
@@ -48,16 +67,22 @@ const CountriesContextProvider: React.FC<CountriesContextProviderProps> = ({
         if (action.payload.length >= 10) {
           return {
             ...state,
-            countries: action.payload,
+            countries: [...action.payload],
             activeCountry: action.payload[9],
           };
         } else {
           return {
             ...state,
-            countries: action.payload,
+            countries: [...action.payload],
             activeCountry: action.payload[action.payload.length - 1],
           };
         }
+
+      case "SET_LANGUAGES":
+        return { ...state, languages: [...action.payload] };
+
+      case "SET_CONTINENTS":
+        return { ...state, continents: [...action.payload] };
 
       case "SET_ACTIVE_COUNTRY":
         return { ...state, activeCountry: action.payload };
