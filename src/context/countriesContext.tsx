@@ -1,16 +1,30 @@
 import React, { createContext, ReactNode, useReducer } from "react";
+
+type Object = {
+  name: string;
+};
+
 type Country = {
   name: string;
   code: string;
-  capital: string;
+  currencies: string[];
+  continent: Object;
+  languages: Object[];
 };
 
 type InitialData = {
+  languages: Object[];
+  continents: Object[];
   countries: Country[];
-  activeCounry: Country;
+  activeCountry: Country;
 };
 
-type ActionType = "SET_COUNTRIES" | "SET_ACTIVE_COUNTRY";
+type ActionType =
+  | "SET_COUNTRIES"
+  | "SET_ACTIVE_COUNTRY"
+  | "RESET_ACTIVE_COUNTRY"
+  | "SET_LANGUAGES"
+  | "SET_CONTINENTS";
 
 interface Action {
   type: ActionType;
@@ -23,8 +37,16 @@ interface CountriesContextType {
 }
 
 const initialData: InitialData = {
+  languages: [],
+  continents: [],
   countries: [],
-  activeCounry: { name: "", code: "", capital: "" },
+  activeCountry: {
+    name: "",
+    code: "",
+    currencies: [],
+    continent: { name: "" },
+    languages: [],
+  },
 };
 
 export const CountriesContextObject = createContext<CountriesContextType>({
@@ -42,10 +64,31 @@ const CountriesContextProvider: React.FC<CountriesContextProviderProps> = ({
   const dataReducer = (state: InitialData, action: Action): InitialData => {
     switch (action.type) {
       case "SET_COUNTRIES":
-        return { ...state, countries: action.payload };
+        if (action.payload.length >= 10) {
+          return {
+            ...state,
+            countries: [...action.payload],
+            activeCountry: action.payload[9],
+          };
+        } else {
+          return {
+            ...state,
+            countries: [...action.payload],
+            activeCountry: action.payload[action.payload.length - 1],
+          };
+        }
+
+      case "SET_LANGUAGES":
+        return { ...state, languages: [...action.payload] };
+
+      case "SET_CONTINENTS":
+        return { ...state, continents: [...action.payload] };
 
       case "SET_ACTIVE_COUNTRY":
-        return { ...state, activeCounry: action.payload };
+        return { ...state, activeCountry: action.payload };
+
+      case "RESET_ACTIVE_COUNTRY":
+        return { ...state, activeCountry: action.payload };
 
       default:
         return state;
