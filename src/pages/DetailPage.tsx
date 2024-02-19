@@ -38,11 +38,10 @@ const DetailPage = () => {
 
       const countryData = response.data.data.country;
       setCountry(countryData);
-      console.log("Countries Data:", countryData);
     } catch (error) {
       console.error(error);
       window.alert(
-        "Sunucuya bağlanırken bir sorunla karştık. Lüstfen tekrar deneyin."
+        "Faced with a problem while connection to server. Please try again later."
       );
     }
   }

@@ -16,7 +16,6 @@ const useFetch = (initialValue?: any) => {
 
       const countriesData = response.data.data.countries;
       dispatchCountries({ type: "SET_COUNTRIES", payload: countriesData });
-      console.log("Countries Data:", countriesData);
     } catch (error) {
       console.error(error);
       window.alert(
