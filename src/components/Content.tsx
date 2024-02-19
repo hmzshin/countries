@@ -66,7 +66,7 @@ const Content = () => {
         <GroupedDisplay randomColor={randomColor} group={group} />
       ) : (
         <div className="w-full flex flex-col justify-between items-center gap-2">
-          {countries?.countries?.map((country, i) => (
+          {countries.countries?.map((country, i) => (
             <ListItem key={i} country={country} randomColor={randomColor} />
           ))}
         </div>

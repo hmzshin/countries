@@ -71,17 +71,20 @@ const Header = () => {
     const filter = searchParams.get("filter");
     const group = searchParams.get("group");
     const filterBy = searchParams.get("filterBy");
+    if (filter == null && filterBy == null && group != null) {
+      dispatchCountries({
+        type: "RESET_ACTIVE_COUNTRY",
+        payload: countries?.countries[9],
+      });
+    }
     if (filter || group || filterBy) {
       searchParams.delete("filter");
       searchParams.delete("group");
       searchParams.delete("filterBy");
       setSearchParams(searchParams);
     }
+
     setFormData({ filter: "", group: "default", filterBy: "default" });
-    dispatchCountries({
-      type: "SET_ACTIVE_COUNTRY",
-      payload: countries.countries[9],
-    });
   }
 
   function queryMaker(filter: string, filterBy: string, group: string): string {
@@ -116,6 +119,19 @@ const Header = () => {
       }}`;
     } else if (group) {
       setFormData({ filter: "", filterBy: "default", group });
+      query = `
+        query Countries {
+        countries {
+        name
+        code
+        currencies
+        continent {
+            name
+        }
+        languages {
+          name
+      }
+      }}`;
     } else {
       query = `
         query Countries {

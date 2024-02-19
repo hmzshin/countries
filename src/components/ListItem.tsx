@@ -20,7 +20,7 @@ interface ListItemProps {
 
 const ListItem: React.FC<ListItemProps> = ({ country, randomColor }) => {
   const { dispatchCountries, countries } = useContext(CountriesContextObject);
-  const active = countries.activeCountry;
+  const active = countries?.activeCountry;
   const navigate = useNavigate();
 
   function navigateToDetails(country: Country): void {

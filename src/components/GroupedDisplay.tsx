@@ -120,7 +120,7 @@ const GroupedDisplay = ({ randomColor, group }: PropTypes) => {
         payload: arrayForTenthItem[arrayForTenthItem.length - 1],
       });
     }
-  }, [group, countries[group], countries.countries]);
+  }, [group, countries[group]]);
 
   return (
     <>
