@@ -1,10 +1,15 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { CountriesContextObject } from "../context/countriesContext";
 import ListItem from "./ListItem";
+import { useSearchParams } from "react-router-dom";
+import GroupedDisplay from "./GroupedDisplay";
 
 const Content = () => {
   const { countries } = useContext(CountriesContextObject);
-  const active = countries.activeCountry;
+  const active = countries?.activeCountry;
+  const [group, setGroup] = useState<"languages" | "continents" | "">("");
+  const [searchParams] = useSearchParams();
+  const memoizedSearchParams = useMemo(() => searchParams, [searchParams]);
 
   const [randomNumber, setRandomNumber] = useState<number>(0);
   const [randomColor, setRandomColor] = useState<string>("");
@@ -28,24 +33,45 @@ const Content = () => {
     while (randomNumber === number) {
       number = createRandomNumber();
     }
-    console.log("number", number);
     const color = randomColors[number];
     setRandomColor(color);
     setRandomNumber(number);
   }, [active]);
 
+  useEffect(() => {
+    const urlParams: any = {};
+    for (const entry of memoizedSearchParams.entries()) {
+      urlParams[entry[0]] = entry[1];
+    }
+    const group = urlParams.group;
+    if (group) {
+      setGroup(group);
+    } else {
+      setGroup("");
+    }
+  }, [memoizedSearchParams]);
+
   return (
-    <table className="w-[600px] m-auto flex flex-col items-center justify-between gap-2 pb-10 relative">
-      <tr className="w-full border p-2 rounded-md bg-slate-300 sticky top-0 flex justify-between items-center">
-        <th className="w-52 pr-10">Name</th>
-        <th className="w-20 pr-7">Code</th>
-        <th className="w-40">Capital</th>
-        <th>Details</th>
-      </tr>
-      {countries.countries.map((country, i) => (
-        <ListItem key={i} country={country} randomColor={randomColor} />
-      ))}
-    </table>
+    <div className="w-[700px] m-auto flex flex-col items-center justify-between gap-2 pb-10 relative">
+      <div className="w-full border p-2 rounded-md bg-slate-300 sticky top-0 flex justify-center items-center">
+        <div className="w-full flex justify-between items-center">
+          <p className="w-52 pl-5 text-left">Name</p>
+          <p className="w-20 pr-7">Code</p>
+          <p className="w-40 pl-5">Continent</p>
+          <p className="w-40 pl-10">Currency</p>
+          <p>Details</p>
+        </div>
+      </div>
+      {group !== "" ? (
+        <GroupedDisplay randomColor={randomColor} group={group} />
+      ) : (
+        <div className="w-full flex flex-col justify-between items-center gap-2">
+          {countries?.countries?.map((country, i) => (
+            <ListItem key={i} country={country} randomColor={randomColor} />
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 
